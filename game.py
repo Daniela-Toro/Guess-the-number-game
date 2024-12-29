@@ -110,7 +110,7 @@ def show_statics ():
         Hoja = wb['statics']
         print(Fore.LIGHTCYAN_EX + "MENÚ".center(40))
         print(Fore.RED + "NOTA: Las partidas aparecen guardadas en el archivo GAME_STATICS.xlsx")
-        print(Fore.LIGHTCYAN_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USURIO\n" + Style.RESET_ALL)
+        print(Fore.LIGHTCYAN_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USUARIO\n" + Style.RESET_ALL)
         option = int(input(Fore.BLUE + "SELECCIONE QUÉ DESEA HACER: "))
         option = validation(option, 1, 2)
         if option == 1:
