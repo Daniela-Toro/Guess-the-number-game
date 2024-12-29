@@ -184,5 +184,5 @@ while selection != "4":
         print(Fore.RED + "FIN DEL JUEGO\nGRACIAS POR JUGAR, HASTA LA PRÓXIMA! \U0001F44B")
     else:
         print(Fore.RED + "=" * 45)
-        print(Fore.RED + "\u274C ERROR: VALOR INSERTADO NO VÁLIDO \u274C\n DEBE SELECCIONAR UNA OPCION ENTRE 1 Y 4")
+        print(Fore.RED + "\u274C ERROR: VALOR INSERTADO NO VÁLIDO \u274C\n DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4")
         print(Fore.RED + "=" * 45)
