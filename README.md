@@ -22,7 +22,7 @@ Welcome to the **Guess-the-Number-Game**! A fun and challenging Python game wher
 
 ## Libraries Required:
 Make sure to install the following libraries to run the game smoothly:
-- **colorama** 🎨
+- [**colorama** 🎨](https://pypi.org/project/colorama)
 - **random** 🎲
 - **datetime** 🕰️
 - **openpyxl** 📂
