@@ -1,11 +1,13 @@
 # IMPORTAR FUNCIONES
 from colorama import Fore, Style
 from random import randint
-#from getpass import getpass
 from datetime import datetime
 import openpyxl
 from openpyxl import Workbook
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import pygame
+import time
 
 #FUNCION PARA MOSTRAR EL MENU PRINCIPAL
 def Menu():
@@ -21,10 +23,24 @@ def Menu():
         Style.RESET_ALL
     )
 
+# FUNCION PARA REPRODUCIR SONIDO DE GANAR O PERDER
+def animation_game (url_photo, url_sound):
+# Mostrar Sonido
+    pygame.init()
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound(url_sound)
+    sound.play()
+    time.sleep(2)
+    pygame.quit()
+# Mostrar Imagen
+    img = mpimg.imread(url_photo)
+    plt.imshow(img)
+    plt.axis('off')
+    plt.show()
+
 # FUNCION PARA VALIDAR ENTRADAS
 def validation(value, min, max):
     while value < min or value > max:
-        #playsound("error.wav")
         value = int(input(Fore.BLUE + f"UPS! TIENES QUE SELECCIONAR UNA OPCIÓN ENTRE {min} Y {max}: "))
     return value
 
@@ -51,6 +67,7 @@ def play_game(max_attempts,unknown_number,name):
         guess_number = int(input(Fore.BLUE + "INTRODUCE UN NÚMERO: "))
         guess_number = validation(guess_number, 1, 1000)
         if guess_number == unknown_number:
+            animation_game('win.jpg','win.wav')
             print(f"FELICIDADES {name}! HAS GANADO!")
             win = True
         elif guess_number > unknown_number:
@@ -58,9 +75,11 @@ def play_game(max_attempts,unknown_number,name):
         else:
             print("EL NÚMERO A ADIVINAR ES MAYOR")
         attempts += 1
-        #print(Fore.RED + f"TIENES DISPONIBLES: {max_attempts-attempts} INTENTOS")
+        if win == False:
+            print(f'TE QUEDAN {max_attempts - attempts} INTENTOS DISPONIBLES')
     if max_attempts == attempts:
         print(Fore.RED + f"{name} HAS SUPERADO EL NÚMERO MÁXIMO DE INTENTOS PERMITIDOS\nSUERTE PARA LA PRÓXIMA")
+        animation_game('lose.jpg','game_over.wav')
     save_statics(name, attempts, win, unknown_number, max_attempts)
 
 # FUNCION PARA MODO SOLITARIO
@@ -84,7 +103,6 @@ def two_players():
     name2 = input("JUGADOR 2, INTRODUCE TU NOMBRE O ALIAS: ").lower()
     unknown_number = validation(int(input(Fore.LIGHTWHITE_EX + f"{name2}: INSERTA UN NÚMERO ENTRE 1 Y 1000: ")), 1, 1000)
     play_game(max_attempts, unknown_number,name)
-
 # FUNCION PARA GUARDAR ESTADISTICAS
 def save_statics(name,attempts,win,unknown_number,max_attempts):
     try:
