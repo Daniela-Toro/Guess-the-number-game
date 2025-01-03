@@ -131,23 +131,33 @@ def show_statics ():
         print(Fore.LIGHTBLUE_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USUARIO\n" + Style.RESET_ALL)
         option = int(input(Fore.LIGHTCYAN_EX + "SELECCIONE UNA OPCIÓN: "))
         option = validation(option, 1, 2)
-        if option == 1:
-            print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(45) + Style.RESET_ALL)
-            player_wins = {}
-            for cell in Hoja[1]:
-                print(cell.value, end=" ")
-            print()
-            for row in Hoja.iter_rows(min_row=2, values_only=True):
-                name, win, unknown_number, attempts, max_attempts, date = row
+        if option == 2:
+            user = input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ')
+        print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(45) + Style.RESET_ALL)
+        for cell in Hoja[1]:
+            print(cell.value, end=" ")
+        print()
+        player_wins = {}
+        for row in Hoja.iter_rows(min_row=2, values_only=True):
+            name, win, unknown_number, attempts, max_attempts, date = row
+            if option == 1 or (option == 2 and name == user):
+                if name not in player_wins:
+                    player_wins[name] = {
+                        "wins": 0,
+                        "losses": 0
+                    }
+                if win == True:
+                    player_wins[name]["wins"] += 1
+                else:
+                    player_wins[name]["losses"] += 1
                 for cell in row:
                     print(cell, end=" ")
                 print()
-                if not name in player_wins:
-                    player_wins[name] = 0
-                if win == True:
-                    player_wins[name] += 1
+        if option == 1:
             names = list(player_wins.keys())
-            wins = list(player_wins.values())
+            wins = []
+            for name in names:
+                wins.append(player_wins[name]["wins"])
             plt.figure(figsize=(10, 6))
             plt.bar(names, wins, color='green')
             plt.xlabel('JUGADORES')
@@ -157,25 +167,9 @@ def show_statics ():
             plt.tight_layout()
             plt.show()
         else:
-            total_wins = 0
-            total_losses = 0
-            user_exists = False
-            user = input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ')
-            print(Fore.LIGHTBLUE_EX + f"\nINFORMACIÓN DE {user}:" + Style.RESET_ALL)
-            for row in Hoja.iter_rows(min_row=2, values_only=True):
-                name, win, unknown_number, attempts, max_attempts, date = row
-                if name.lower() == user.lower():
-                    user_exists = True
-                    for cell in row:
-                        print(cell, end=" ")
-                    print()
-                    if win == True:
-                        total_wins += 1
-                    else:
-                        total_losses += 1
-            if user_exists == True:
+            if user in player_wins:
                 categories = ['PARTIDAS GANADAS', 'PARTIDAS PERDIDAS']
-                values = [total_wins, total_losses]
+                values = [player_wins[user]["wins"], player_wins[user]["losses"]]
                 plt.figure(figsize=(8, 6))
                 plt.bar(categories, values, color=['green', 'red'])
                 plt.xlabel('CATEGORÍAS')
