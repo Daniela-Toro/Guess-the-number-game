@@ -9,6 +9,12 @@ import matplotlib.image as mpimg
 import pygame
 import time
 
+# FUNCION PARA VALIDAR QUE UN NOMBRE TENGA MAS DE 3 CARACTERES Y SEA SOLO LETRAS
+def names_validation(name):
+    while not name.isalpha():
+        name = input(Fore.LIGHTRED_EX + f"ERROR: NOMBRE INVÁLIDO! SOLO PUEDE CONTENER LETRAS: ").lower
+    return name
+
 # FUNCION PARA VALIDAR ENTRADAS NUMERICAS EN RANGO
 def validation(value, min, max):
     while value < min or value > max:
@@ -92,15 +98,15 @@ def one_player():
     print(Fore.LIGHTBLUE_EX + f"DESCUBRE EL NÚMERO QUE SE ESCONDE ENTRE 1 Y 1000.")
     unknown_number = randint(1, 1000)
     print(unknown_number)
-    name = input(Fore.LIGHTCYAN_EX + "INTRODUCE TU NOMBRE: ").lower()
+    name = names_validation(input(Fore.LIGHTCYAN_EX + "INTRODUCE TU NOMBRE: ").lower())
     play_game(unknown_number,name)
 
 # FUNCION PARA MODO 2 JUGADORES
 def two_players():
     print(Fore.LIGHTBLUE_EX + "▓" * 50 + "\n" + "\U0001F465 PARTIDA 2 JUGADORES.".center(40))
     print(Fore.LIGHTCYAN_EX + "EL JUGADOR 1 ESCOGERÁ UN NÚMERO ENTRE 1 Y 1000, Y EL JUGADOR 2 DEBERÁ ADIVINARLO.")
-    name2 = input(Fore.LIGHTCYAN_EX + "JUGADOR 1, INTRODUCE TU NOMBRE: ").lower()
-    name = input(Fore.LIGHTCYAN_EX + "JUGADOR 2, INTRODUCE TU NOMBRE O ALIAS: ").lower()
+    name2 = names_validation(input(Fore.LIGHTCYAN_EX + "JUGADOR 1, INTRODUCE TU NOMBRE: ").lower())
+    name = names_validation(input(Fore.LIGHTCYAN_EX + "JUGADOR 2, INTRODUCE TU NOMBRE O ALIAS: ").lower())
     unknown_number = validation(int(input(Fore.LIGHTCYAN_EX + f"{name2}: INSERTA UN NÚMERO ENTRE 1 Y 1000: ")), 1, 1000)
     play_game(unknown_number,name)
 
@@ -127,21 +133,21 @@ def show_statics ():
     try:
         wb = openpyxl.load_workbook("GAME_STATICS.xlsx")
         Hoja = wb['statics']
-        print(Fore.LIGHTBLUE_EX + "MENÚ".center(40))
+        print(Fore.LIGHTBLUE_EX + "MENÚ".center(50))
         print(Fore.RED + "LAS PARTIDAS APARECEN GUARDADAS EN GAME_STATICS.xlsx")
         print(Fore.LIGHTBLUE_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USUARIO\n" + Style.RESET_ALL)
         option = int(input(Fore.LIGHTCYAN_EX + "SELECCIONE UNA OPCIÓN: "))
         option = validation(option, 1, 2)
         user = None
         if option == 2:
-            user = input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').lower()
+            user = names_validation(input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').lower())
         players = {}
         show_header = False
         for row in Hoja.iter_rows(min_row=2, values_only=True):
             name, win, unknown_number, attempts, max_attempts, date = row
             if option == 1 or (option == 2 and name == user):
                 if show_header == False:
-                    print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(45) + Style.RESET_ALL)
+                    print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(50) + Style.RESET_ALL)
                     for cell in Hoja[1]:
                         print(cell.value, end=" ")
                     print()
