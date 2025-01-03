@@ -9,7 +9,7 @@ import matplotlib.image as mpimg
 import pygame
 import time
 
-# FUNCION PARA VALIDAR ENTRADAS
+# FUNCION PARA VALIDAR ENTRADAS NUMERICAS EN RANGO
 def validation(value, min, max):
     while value < min or value > max:
         value = int(input(Fore.LIGHTRED_EX + f"TIENES QUE SELECCIONAR UNA OPCIÓN ENTRE {min} Y {max}: "))
@@ -17,6 +17,7 @@ def validation(value, min, max):
 
 # FUNCION PARA MOSTRAR EL MENU PRINCIPAL
 def Menu():
+    print(Fore.LIGHTBLUE_EX + "▓" * 50)
     print(Fore.LIGHTBLUE_EX + "MENÚ".center(50))
     print(Fore.LIGHTBLUE_EX + 'SELECCIÓN DE MODALIDAD'.center(50))
     print(Fore.LIGHTBLUE_EX + "▓" * 50)
@@ -131,33 +132,37 @@ def show_statics ():
         print(Fore.LIGHTBLUE_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USUARIO\n" + Style.RESET_ALL)
         option = int(input(Fore.LIGHTCYAN_EX + "SELECCIONE UNA OPCIÓN: "))
         option = validation(option, 1, 2)
+        user = None
         if option == 2:
-            user = input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ')
-        print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(45) + Style.RESET_ALL)
-        for cell in Hoja[1]:
-            print(cell.value, end=" ")
-        print()
-        player_wins = {}
+            user = input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').lower()
+        players = {}
+        show_header = False
         for row in Hoja.iter_rows(min_row=2, values_only=True):
             name, win, unknown_number, attempts, max_attempts, date = row
             if option == 1 or (option == 2 and name == user):
-                if name not in player_wins:
-                    player_wins[name] = {
+                if show_header == False:
+                    print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(45) + Style.RESET_ALL)
+                    for cell in Hoja[1]:
+                        print(cell.value, end=" ")
+                    print()
+                    show_header = True
+                if name not in players:
+                    players[name] = {
                         "wins": 0,
                         "losses": 0
                     }
                 if win == True:
-                    player_wins[name]["wins"] += 1
+                    players[name]["wins"] += 1
                 else:
-                    player_wins[name]["losses"] += 1
+                    players[name]["losses"] += 1
                 for cell in row:
                     print(cell, end=" ")
                 print()
         if option == 1:
-            names = list(player_wins.keys())
+            names = list(players.keys())
             wins = []
             for name in names:
-                wins.append(player_wins[name]["wins"])
+                wins.append(players[name]["wins"])
             plt.figure(figsize=(10, 6))
             plt.bar(names, wins, color='green')
             plt.xlabel('JUGADORES')
@@ -167,9 +172,9 @@ def show_statics ():
             plt.tight_layout()
             plt.show()
         else:
-            if user in player_wins:
+            if user in players:
                 categories = ['PARTIDAS GANADAS', 'PARTIDAS PERDIDAS']
-                values = [player_wins[user]["wins"], player_wins[user]["losses"]]
+                values = [players[user]["wins"], players[user]["losses"]]
                 plt.figure(figsize=(8, 6))
                 plt.bar(categories, values, color=['green', 'red'])
                 plt.xlabel('CATEGORÍAS')
@@ -184,7 +189,6 @@ def show_statics ():
 # PROGRAMA PRINCIPAL
 print(Fore.LIGHTBLUE_EX + "▓" * 50)
 print(Fore.LIGHTBLUE_EX + Style.BRIGHT + "¡QUE COMIENCE EL JUEGO: ADIVINA EL NÚMERO! \U0001F40D \U0001F9D1\U0000200D\U0001F4BB")
-print(Fore.LIGHTBLUE_EX + "▓" * 50)
 selection = "0"
 while selection != "4":
     Menu()
