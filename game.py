@@ -16,7 +16,7 @@ def names_validation(name):
         name = input(Fore.LIGHTRED_EX + f"\u1F534 ERROR: NOMBRE INVÁLIDO! SOLO PUEDE CONTENER LETRAS: ").upper()
     return name
 
-# FUNCION PARA LIMPAR CONSOLA: GETPASS NO FUNCIONA EN PYCHARM
+# FUNCION PARA LIMPAR CONSOLA: GETPASS, CLS o CLEAR NO FUNCIONAN EN PyCharm, VS Code o Jupyter Notebooks
 def clear_console():
     print("\n" * 100)
 
