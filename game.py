@@ -12,7 +12,7 @@ import time
 # FUNCION PARA VALIDAR QUE UN NOMBRE TENGA MAS DE 3 CARACTERES Y SEA SOLO LETRAS
 def names_validation(name):
     while not name.isalpha():
-        name = input(Fore.LIGHTRED_EX + f"\u1F534 ERROR: NOMBRE INVÁLIDO! SOLO PUEDE CONTENER LETRAS: ").upper()
+        name = input(Fore.LIGHTRED_EX + f"\U0001F534 ERROR: NOMBRE INVÁLIDO! SOLO PUEDE CONTENER LETRAS: ").upper()
     return name
 
 # FUNCION PARA LIMPAR CONSOLA: GETPASS, CLS o CLEAR NO FUNCIONAN EN PyCharm, VS Code o Jupyter Notebooks
@@ -21,16 +21,22 @@ def clear_console():
 
 # FUNCION PARA VALIDAR ENTRADAS NUMERICAS EN RANGO
 def validation(value, min, max):
+    total_attempts = 0
     while value < min or value > max:
         value = int(input(Fore.LIGHTRED_EX + f"\U0001F534 TIENES QUE SELECCIONAR UNA OPCIÓN ENTRE {min} Y {max}: "))
+        total_attempts += 1
+        # AVISAR AL USUARIO QUE SU ENTRADA ES INCORRECTA
+        if total_attempts >= 3:
+            total_attempts = 0
+            print(Fore.LIGHTRED_EX + f'SELECCIONÓ 3 VECES UN NÚMERO NO VÁLIDO, POR FAVOR, LEA DE NUEVO \U0001F600')
     return value
 
 # FUNCION PARA MOSTRAR EL MENU PRINCIPAL
 def Menu():
-    print(Fore.LIGHTBLUE_EX + "▓" * 50)
-    print(Fore.LIGHTBLUE_EX + "\U0001F527 MENÚ".center(50))
-    print(Fore.LIGHTBLUE_EX + 'SELECCIÓN DE MODALIDAD'.center(50))
-    print(Fore.LIGHTBLUE_EX + "▓" * 50)
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
+    print(Fore.LIGHTBLUE_EX + "\U0001F527 MENÚ".center(70))
+    print(Fore.LIGHTBLUE_EX + 'SELECCIÓN DE MODALIDAD'.center(70))
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
     print(
         Fore.LIGHTBLUE_EX + "\t1. \U0001F3AE PARTIDA MODO SOLITARIO\n" +
         "\t2. \U0001F465 PARTIDA 2 JUGADORES\n" +
@@ -40,18 +46,19 @@ def Menu():
     )
 
 # FUNCION PARA MOSTRAR SUBMENU Y ELEGIR DIFICULTAD
-def submenu():
-    print(Fore.LIGHTBLUE_EX + "▓" * 50)
-    print(Fore.LIGHTBLUE_EX + "\U0001F527 SUBMENÚ".center(50))
-    print(Fore.LIGHTBLUE_EX + ' SELECCIÓN DEL NIVEL DE DIFICULTAD'.center(50))
-    print(Fore.LIGHTBLUE_EX + "▓" * 50)
+def submenu(name):
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
+    print(Fore.LIGHTBLUE_EX + "\U0001F527 SUBMENÚ".center(70))
+    print(Fore.LIGHTBLUE_EX + ' SELECCIÓN DEL NIVEL DE DIFICULTAD'.center(70))
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
     print(
-        Fore.LIGHTBLUE_EX + "\t1. \U0001F95A FÁCIL\n" +
-        "\t2. \U0001F425 MEDIO\n" +
-        "\t3. \U0001F414 DIFÍCIL\n" +
+        Fore.LIGHTBLUE_EX +
+        "\t1. \U0001F95A FÁCIL (20 INTENTOS DISPONIBLES)" + "\n" +
+        "\t2. \U0001F425 MEDIO (12 INTENTOS DISPONIBLES)" + "\n" +
+        "\t3. \U0001F414 DIFÍCIL (5 INTENTOS DISPONIBLES)" +
         Style.RESET_ALL
     )
-    difficulty = int(input(Fore.LIGHTCYAN_EX + "\u27A1 SELECCIONA UNA DE LAS OPCIONES ANTERIORES: "))
+    difficulty = int(input(Fore.LIGHTCYAN_EX + f"\u27A1 {name} SELECCIONA UNA DE LAS OPCIONES ANTERIORES: "))
     difficulty = validation(difficulty, 1, 3)
     return {1: 20, 2: 12, 3: 5}[difficulty]
 
@@ -72,17 +79,17 @@ def animation_game(url_photo, url_sound):
 
 # FUNCION LOGICA DEL JUEGO
 def play_game(unknown_number, name):
-    max_attempts = submenu()
+    max_attempts = submenu(name)
     print(Fore.YELLOW + f"{name}, TIENES {max_attempts} INTENTOS PARA ADIVINAR!.")
     attempts = 0
     guess_number = 0
     win = False
     while (max_attempts > attempts) and (guess_number != unknown_number):
-        guess_number = int(input(Fore.LIGHTCYAN_EX + "INTRODUCE UN NÚMERO: "))
+        guess_number = int(input(Fore.LIGHTCYAN_EX + "\u27A1 ADIVINA! INTRODUCE UN NÚMERO ENTRE 1 Y 1000: "))
         guess_number = validation(guess_number, 1, 1000)
         if guess_number == unknown_number:
-            animation_game('win.jpg', 'win.wav')
             print(Fore.LIGHTYELLOW_EX + Style.BRIGHT + f"\U0001F3C6 FELICIDADES {name}! HAS GANADO!")
+            animation_game('win.jpg', 'win.wav')
             win = True
         elif guess_number > unknown_number:
             print(Fore.LIGHTGREEN_EX + "EL NÚMERO A ADIVINAR ES MENOR \U00002B07")
@@ -100,20 +107,21 @@ def play_game(unknown_number, name):
 
 # FUNCION PARA MODO SOLITARIO
 def one_player():
-    print(Fore.LIGHTBLUE_EX + "▓" * 50 + "\n" + "\U0001F3AE PARTIDA MODO SOLITARIO".center(50) + "\n" + "▓" * 50)
+    print(Fore.LIGHTBLUE_EX + "▓" * 70 + "\n" + "\U0001F3AE PARTIDA MODO SOLITARIO".center(70) + "\n" + "▓" * 70)
     print(Fore.LIGHTBLUE_EX + f"DESCUBRE EL NÚMERO QUE SE ESCONDE ENTRE 1 Y 1000.")
-    unknown_number = randint(1, 1000)
+    unknown_number = randint(1, 1000)  # RANDINT INCLUYE TANTO 1 COMO 1000
     #print(unknown_number)
-    name = names_validation(input(Fore.LIGHTCYAN_EX + "INTRODUCE TU NOMBRE: ").upper())
+    name = names_validation(input(Fore.LIGHTCYAN_EX + "\u27A1 INTRODUCE TU NOMBRE: ").upper())
     play_game(unknown_number, name)
 
 # FUNCION PARA MODO 2 JUGADORES
 def two_players():
-    print(Fore.LIGHTBLUE_EX + "▓" * 50 + "\n" + "\U0001F465 PARTIDA 2 JUGADORES.".center(40))
-    print(Fore.LIGHTCYAN_EX + "EL JUGADOR 1 ESCOGERÁ UN NÚMERO ENTRE 1 Y 1000, Y EL JUGADOR 2 DEBERÁ ADIVINARLO.")
-    name2 = names_validation(input(Fore.LIGHTCYAN_EX + "JUGADOR 1, INTRODUCE TU NOMBRE: ").upper())
-    name = names_validation(input(Fore.LIGHTCYAN_EX + "JUGADOR 2, INTRODUCE TU NOMBRE: ").upper())
-    unknown_number = validation(int(input(Fore.LIGHTCYAN_EX + f"{name2}: INSERTA UN NÚMERO ENTRE 1 Y 1000: ")), 1, 1000)
+    print(Fore.LIGHTBLUE_EX + "▓" * 70 + "\n" + "\U0001F465 PARTIDA 2 JUGADORES".center(70) + "\n" + "▓" * 70)
+    print(Fore.YELLOW + "JUGADOR 1 ESCOGERÁ UN NÚMERO ENTRE 1 Y 1000\nJUGADOR 2 ADIVINARÁ EL NÚMERO Y LE CONTARÁ EL RESULTADO DE LA PARTIDA.")
+    # LAS PARTIDAS GANADAS/PERDIDAS SE LE APUNTAN AL JUGADOR 2 SOLAMENTE (JUGADOR QUE ADIVINA)
+    name2 = names_validation(input(Fore.LIGHTCYAN_EX + "\u27A1 JUGADOR 1, INTRODUCE TU NOMBRE: ").upper())
+    name = names_validation(input(Fore.LIGHTCYAN_EX + "\u27A1 JUGADOR 2, INTRODUCE TU NOMBRE: ").upper())
+    unknown_number = validation(int(input(Fore.LIGHTCYAN_EX + f"\u27A1 {name2}: INSERTA UN NÚMERO ENTRE 1 Y 1000: ")), 1, 1000)
     clear_console()
     play_game(unknown_number, name)
 
@@ -135,12 +143,12 @@ def save_statistics(name, attempts, win, unknown_number, max_attempts):
 
 #FUNCION PARA MOSTRAR ESTADISTICAS
 def show_statistics():
-    print(Fore.LIGHTBLUE_EX + "▓" * 50)
-    print(Fore.LIGHTBLUE_EX + "\U0001F4CA ESTADÍSTICAS".center(50))
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
+    print(Fore.LIGHTBLUE_EX + "\U0001F4CA ESTADÍSTICAS".center(70))
     try:
         wb = openpyxl.load_workbook("GAME_STATISTICS.xlsx")
         Hoja = wb['statistics']
-        print(Fore.LIGHTBLUE_EX + "MENÚ".center(50))
+        print(Fore.LIGHTBLUE_EX + "MENÚ".center(70))
         print(Fore.RED + "\u26A0 LAS PARTIDAS APARECEN GUARDADAS EN GAME_STATISTICS.xlsx")
         print(Fore.LIGHTBLUE_EX + "\t1. ESTADÍSTICAS GENERALES\n" + "\t2. ESTADÍSTICAS POR USUARIO\n" + Style.RESET_ALL)
         option = int(input(Fore.LIGHTCYAN_EX + "\u27A1 SELECCIONE UNA OPCIÓN: "))
@@ -148,19 +156,19 @@ def show_statistics():
         user = None
         statistical_logic(Hoja, option, user)
     except FileNotFoundError:
-        print(Fore.LIGHTRED_EX + "\u274C ERROR: ARCHIVO NO ENCONTRADO. ASEGÚRATE DE JUGAR AL MENOS UNA PARTIDA ANTES" + Style.RESET_ALL)
+        print(Fore.LIGHTRED_EX + "\u274C  ERROR: ARCHIVO NO ENCONTRADOn\n" + "\tASEGÚRATE DE JUGAR AL MENOS UNA PARTIDA ANTES" + Style.RESET_ALL)
 
 # FUNCION CON LA LOGICA PRINCIPAL PARA RECORRER Y PROCESAR EL EXCEL
 def statistical_logic(Hoja, option, user):
     if option == 2:
-        user = names_validation(input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').upper())
+        user = names_validation(input(Fore.LIGHTCYAN_EX + '\u27A1 INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').upper())
     players = {}
     show_header = False
     for row in Hoja.iter_rows(min_row=2, values_only=True):
         name, win, unknown_number, attempts, max_attempts, date = row
         if option == 1 or (option == 2 and name == user):
             if show_header == False:
-                print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(50) + Style.RESET_ALL)
+                print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(70) + Style.RESET_ALL)
                 for cell in Hoja[1]:
                     print(cell.value, end=" ")
                 print()
@@ -210,9 +218,9 @@ def plot_user_statistics (players, user):
         print(Fore.LIGHTRED_EX + f'EL USUARIO {user} NO EXISTE')
 
 # PROGRAMA PRINCIPAL
-print(Fore.LIGHTBLUE_EX + "▓" * 50)
+print(Fore.LIGHTBLUE_EX + "▓" * 70)
 print(
-    Fore.LIGHTBLUE_EX + Style.BRIGHT + "¡QUE COMIENCE EL JUEGO: ADIVINA EL NÚMERO! \U0001F40D \U0001F9D1\U0000200D\U0001F4BB")
+    Fore.LIGHTBLUE_EX + Style.BRIGHT + "¡QUE COMIENCE EL JUEGO: ADIVINA EL NÚMERO! \U0001F40D \U0001F9D1\U0000200D\U0001F4BB".center(70))
 selection = "0"
 while selection != "4":
     Menu()
@@ -226,6 +234,7 @@ while selection != "4":
     elif selection == "4":
         print(Fore.LIGHTRED_EX + "GRACIAS POR JUGAR, HASTA LA PRÓXIMA! \U0001F44B")
     else:
-        print(Fore.LIGHTRED_EX + "▓" * 50)
-        print(Fore.LIGHTRED_EX + "\u274C ERROR!: VALOR INSERTADO NO VÁLIDO \u274C\n DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4")
-        print(Fore.LIGHTRED_EX + "▓" * 50)
+        print(Fore.LIGHTRED_EX + "▓" * 70)
+        print(Fore.LIGHTRED_EX + "\u274CERROR!:VALOR INSERTADO NO VÁLIDO\u274C".center(70))
+        print(Fore.LIGHTRED_EX + "  DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4".center(70))
+        print(Fore.LIGHTRED_EX + "▓" * 70)
