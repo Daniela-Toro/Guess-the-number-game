@@ -9,7 +9,6 @@ import matplotlib.image as mpimg
 import pygame
 import time
 
-
 # FUNCION PARA VALIDAR QUE UN NOMBRE TENGA MAS DE 3 CARACTERES Y SEA SOLO LETRAS
 def names_validation(name):
     while not name.isalpha():
@@ -40,7 +39,6 @@ def Menu():
         Style.RESET_ALL
     )
 
-
 # FUNCION PARA MOSTRAR SUBMENU Y ELEGIR DIFICULTAD
 def submenu():
     print(Fore.LIGHTBLUE_EX + "▓" * 50)
@@ -57,22 +55,20 @@ def submenu():
     difficulty = validation(difficulty, 1, 3)
     return {1: 20, 2: 12, 3: 5}[difficulty]
 
-
 # FUNCION PARA REPRODUCIR SONIDO E IMAGEN DE GANAR O PERDER
 def animation_game(url_photo, url_sound):
-    # Mostrar Sonido
+    # REPRODUCIR SONIDO
     pygame.init()
     pygame.mixer.init()
     sound = pygame.mixer.Sound(url_sound)
     sound.play()
     time.sleep(2)
     pygame.quit()
-    # Mostrar Imagen
+    # MOSTRAR IMAGEN
     img = mpimg.imread(url_photo)
     plt.imshow(img)
     plt.axis('off')
     plt.show()
-
 
 # FUNCION LOGICA DEL JUEGO
 def play_game(unknown_number, name):
@@ -102,7 +98,6 @@ def play_game(unknown_number, name):
         animation_game('lose.jpg', 'game_over.wav')
     save_statistics(name, attempts, win, unknown_number, max_attempts)
 
-
 # FUNCION PARA MODO SOLITARIO
 def one_player():
     print(Fore.LIGHTBLUE_EX + "▓" * 50 + "\n" + "\U0001F3AE PARTIDA MODO SOLITARIO".center(50) + "\n" + "▓" * 50)
@@ -111,7 +106,6 @@ def one_player():
     #print(unknown_number)
     name = names_validation(input(Fore.LIGHTCYAN_EX + "INTRODUCE TU NOMBRE: ").upper())
     play_game(unknown_number, name)
-
 
 # FUNCION PARA MODO 2 JUGADORES
 def two_players():
@@ -122,7 +116,6 @@ def two_players():
     unknown_number = validation(int(input(Fore.LIGHTCYAN_EX + f"{name2}: INSERTA UN NÚMERO ENTRE 1 Y 1000: ")), 1, 1000)
     clear_console()
     play_game(unknown_number, name)
-
 
 # FUNCION PARA GUARDAR ESTADISTICAS
 def save_statistics(name, attempts, win, unknown_number, max_attempts):
@@ -139,7 +132,6 @@ def save_statistics(name, attempts, win, unknown_number, max_attempts):
     sheet.append([name, win, unknown_number, attempts, max_attempts, dt])
     wb.save("GAME_STATISTICS.xlsx")
     print(Fore.YELLOW + "\U0001F4BE RESULTADO DE LA PARTIDA GUARDADO EN ESTADÍSTICAS")
-
 
 #FUNCION PARA MOSTRAR ESTADISTICAS
 def show_statistics():
@@ -158,6 +150,7 @@ def show_statistics():
     except FileNotFoundError:
         print(Fore.LIGHTRED_EX + "\u274C ERROR: ARCHIVO NO ENCONTRADO. ASEGÚRATE DE JUGAR AL MENOS UNA PARTIDA ANTES" + Style.RESET_ALL)
 
+# FUNCION CON LA LOGICA PRINCIPAL PARA RECORRER Y PROCESAR EL EXCEL
 def statistical_logic(Hoja, option, user):
     if option == 2:
         user = names_validation(input(Fore.LIGHTCYAN_EX + 'INTRODUZCA EL NOMBRE DEL USUARIO QUE DESEA BUSCAR: ').upper())
@@ -186,7 +179,6 @@ def statistical_logic(Hoja, option, user):
             print()
     if option == 1:
         plot_general_statistics(players)
-
     else:
         plot_user_statistics(players, user)
 
@@ -235,6 +227,5 @@ while selection != "4":
         print(Fore.LIGHTRED_EX + "GRACIAS POR JUGAR, HASTA LA PRÓXIMA! \U0001F44B")
     else:
         print(Fore.LIGHTRED_EX + "▓" * 50)
-        print(
-            Fore.LIGHTRED_EX + "\u274C ERROR!: VALOR INSERTADO NO VÁLIDO \u274C\n DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4")
+        print(Fore.LIGHTRED_EX + "\u274C ERROR!: VALOR INSERTADO NO VÁLIDO \u274C\n DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4")
         print(Fore.LIGHTRED_EX + "▓" * 50)
