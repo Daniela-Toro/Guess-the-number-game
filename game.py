@@ -19,6 +19,7 @@ def names_validation(name):
 def clear_console():
     print("\n" * 100)
 
+
 # FUNCION PARA VALIDAR ENTRADAS NUMERICAS EN RANGO
 def validation(value, min, max):
     total_attempts = 0
