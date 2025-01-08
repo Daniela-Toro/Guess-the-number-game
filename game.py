@@ -17,7 +17,7 @@ def names_validation(name):
 
 # FUNCION PARA LIMPAR CONSOLA: GETPASS, CLS o CLEAR NO ME FUNCIONAN EN PyCharm, VS Code o Jupyter Notebooks
 def clear_console():
-    print("\n" * 100) # Genera líneas vacías para simular una consola limpia
+    print("\n" * 100)  # Genera líneas vacías para simular una consola limpia
 
 # FUNCIÓN PARA VALIDAR ENTRADAS NUMÉRICAS DENTRO DE UN RANGO
 def validation(value, min, max):
