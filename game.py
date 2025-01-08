@@ -89,7 +89,7 @@ def play_game(unknown_number, name):
         guess_number = validation(guess_number, 1, 1000)
         if guess_number == unknown_number:
             print(Fore.LIGHTYELLOW_EX + Style.BRIGHT + f"\U0001F3C6 FELICIDADES {name}! HAS GANADO!")
-            animation_game('win.jpg', 'win.wav')
+            animation_game('./tmp/win.jpg', './tmp/win.wav')
             win = True
         elif guess_number > unknown_number:
             print(Fore.LIGHTGREEN_EX + "EL NÚMERO A ADIVINAR ES MENOR \U00002B07")
@@ -101,7 +101,7 @@ def play_game(unknown_number, name):
     if (max_attempts == attempts) and (win == False):
         print(Fore.RED + Style.BRIGHT + f"\U0001F534 {name}, HAS SUPERADO EL NÚMERO MÁXIMO DE INTENTOS PERMITIDOS\nSUERTE PARA LA PRÓXIMA")
         print(Fore.RED + Style.BRIGHT + '\U0001F480 GAME OVER \u2620')
-        animation_game('lose.jpg', 'game_over.wav')
+        animation_game('./tmp/lose.jpg', './tmp/game_over.wav')
     save_statistics(name, attempts, win, unknown_number, max_attempts)
 
 # FUNCION PARA MODO SOLITARIO
