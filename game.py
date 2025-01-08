@@ -77,7 +77,7 @@ def animation_game(url_photo, url_sound):
     plt.axis('off')
     plt.show()
 
-# # FUNCIÓN PRINCIPAL DE LÓGICA DEL JUEGO
+# FUNCIÓN PRINCIPAL DE LÓGICA DEL JUEGO
 def play_game(unknown_number, name):
     max_attempts = submenu(name)
     print(Fore.YELLOW + f"{name}, TIENES {max_attempts} INTENTOS PARA ADIVINAR!.")
