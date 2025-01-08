@@ -19,7 +19,6 @@ def names_validation(name):
 def clear_console():
     print("\n" * 100)
 
-
 # FUNCION PARA VALIDAR ENTRADAS NUMERICAS EN RANGO
 def validation(value, min, max):
     total_attempts = 0
@@ -99,9 +98,8 @@ def play_game(unknown_number, name):
         attempts += 1
         if win == False:
             print(Fore.YELLOW + f'\u26A0 TE QUEDAN {max_attempts - attempts} INTENTOS DISPONIBLES')
-    if max_attempts == attempts:
-        print(
-            Fore.RED + Style.BRIGHT + f"\U0001F534 {name} HAS SUPERADO EL NÚMERO MÁXIMO DE INTENTOS PERMITIDOS\nSUERTE PARA LA PRÓXIMA")
+    if (max_attempts == attempts) and (win == False):
+        print(Fore.RED + Style.BRIGHT + f"\U0001F534 {name} HAS SUPERADO EL NÚMERO MÁXIMO DE INTENTOS PERMITIDOS\nSUERTE PARA LA PRÓXIMA")
         print(Fore.RED + Style.BRIGHT + '\U0001F480 GAME OVER \u2620')
         animation_game('lose.jpg', 'game_over.wav')
     save_statistics(name, attempts, win, unknown_number, max_attempts)
@@ -169,7 +167,7 @@ def statistical_logic(Hoja, option, user):
         name, win, unknown_number, attempts, max_attempts, date = row
         if option == 1 or (option == 2 and name == user):
             if show_header == False:
-                print(Fore.LIGHTBLUE_EX + "\nESTADÍSTICAS GENERALES".center(70) + Style.RESET_ALL)
+                print(Fore.GREEN + "\nESTADÍSTICAS GENERALES".center(70) + Style.RESET_ALL)
                 for cell in Hoja[1]:
                     print(cell.value, end=" ")
                 print()
