@@ -221,22 +221,28 @@ def plot_user_statistics (players, user):
         print(Fore.LIGHTRED_EX + f'EL USUARIO {user} NO EXISTE')
 
 # PROGRAMA PRINCIPAL
-print(Fore.LIGHTBLUE_EX + "▓" * 70)
-print(Fore.LIGHTBLUE_EX + Style.BRIGHT + "¡QUE COMIENCE EL JUEGO: ADIVINA EL NÚMERO! \U0001F40D \U0001F9D1\U0000200D\U0001F4BB".center(70))
-selection = "0"
-while selection != "4":
-    Menu()
-    selection = input(Fore.LIGHTCYAN_EX + "\u27A1 SELECCIONA UNA DE LAS OPCIONES ANTERIORES: ")
-    if selection == "1":
-        one_player()
-    elif selection == "2":
-        two_players()
-    elif selection == "3":
-        show_statistics()
-    elif selection == "4":
-        print(Fore.LIGHTRED_EX + "GRACIAS POR JUGAR, HASTA LA PRÓXIMA! \U0001F44B".center(70))
-    else:
-        print(Fore.LIGHTRED_EX + "▓" * 70)
-        print(Fore.LIGHTRED_EX + "\u274CERROR!:VALOR INSERTADO NO VÁLIDO\u274C".center(70))
-        print(Fore.LIGHTRED_EX + "  DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4".center(70))
-        print(Fore.LIGHTRED_EX + "▓" * 70)
+try:
+    print(Fore.LIGHTBLUE_EX + "▓" * 70)
+    print(Fore.LIGHTBLUE_EX + Style.BRIGHT + "¡QUE COMIENCE EL JUEGO: ADIVINA EL NÚMERO! \U0001F40D \U0001F9D1\U0000200D\U0001F4BB".center(70))
+    selection = "0"
+    while selection != "4":
+        Menu()
+        selection = input(Fore.LIGHTCYAN_EX + "\u27A1 SELECCIONA UNA DE LAS OPCIONES ANTERIORES: ")
+        if selection == "1":
+            one_player()
+        elif selection == "2":
+            two_players()
+        elif selection == "3":
+            show_statistics()
+        elif selection == "4":
+            print(Fore.LIGHTRED_EX + "GRACIAS POR JUGAR, HASTA LA PRÓXIMA! \U0001F44B".center(70))
+        else:
+            print(Fore.LIGHTRED_EX + "▓" * 70)
+            print(Fore.LIGHTRED_EX + "\u274CERROR!:VALOR INSERTADO NO VÁLIDO\u274C".center(70))
+            print(Fore.LIGHTRED_EX + "  DEBE SELECCIONAR UNA OPCIÓN ENTRE 1 Y 4".center(70))
+            print(Fore.LIGHTRED_EX + "▓" * 70)
+except:
+    print('\n')
+    print(Fore.LIGHTRED_EX + "▓" * 70 + "\n" + "LO SENTIMOS, HA OCURRIDO ALGO INESPERADO".center(70))
+    print(Fore.LIGHTRED_EX + "REINICIE EL JUEGO".center(70))
+    print(Fore.LIGHTRED_EX + "▓" * 70)
